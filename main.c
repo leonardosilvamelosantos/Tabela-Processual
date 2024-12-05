@@ -52,6 +52,46 @@ void visualizarProcessos() {
     }
 }
 
+void editarProcesso() {
+    int numeroProcesso;
+    printf("Digite o número do processo que deseja editar: ");
+    scanf("%d", &numeroProcesso);
+
+    for (int i = 0; i < contadorProcessos; i++) {
+        if (processos[i].numeroProcesso == numeroProcesso) {
+            printf("Editando processo:\n");
+            printf("Digite o novo tribunal: ");
+            scanf(" %[^\n]", processos[i].tribunal);
+            printf("Digite o novo assunto: ");
+            scanf(" %[^\n]", processos[i].assunto);
+            printf("Digite a nova data da última movimentação: ");
+            scanf(" %[^\n]", processos[i].dataUltimaMovimentacao);
+            printf("Processo editado com sucesso!\n");
+            return;
+        }
+    }
+    printf("Processo não encontrado.\n");
+}
+
+void excluirProcesso() {
+    int numeroProcesso;
+    printf("Digite o número do processo que deseja excluir: ");
+    scanf("%d", &numeroProcesso);
+
+    for (int i = 0; i < contadorProcessos; i++) {
+        if (processos[i].numeroProcesso == numeroProcesso) {
+            // Move todos os processos seguintes uma posição para cima
+            for (int j = i; j < contadorProcessos - 1; j++) {
+                processos[j] = processos[j + 1];
+            }
+            contadorProcessos--;
+            printf("Processo excluído com sucesso!\n");
+            return;
+        }
+    }
+    printf("Processo não encontrado.\n");
+}
+
 int main() {
     int opcao;
 
@@ -59,7 +99,9 @@ int main() {
         printf("Menu:\n");
         printf("1. Cadastrar Processo\n");
         printf("2. Visualizar Processos\n");
-        printf("3. Sair\n");
+        printf("3. Editar Processo\n");
+        printf("4. Excluir Processo\n");
+        printf("5. Sair\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
 
@@ -71,12 +113,18 @@ int main() {
                 visualizarProcessos();
                 break;
             case 3:
+                editarProcesso();
+                break;
+            case 4:
+                excluirProcesso();
+                break;
+            case 5:
                 printf("Saindo...\n");
                 break;
             default:
                 printf("Opção inválida! Tente novamente.\n");
         }
-    } while (opcao != 3);
+    } while (opcao != 5);
 
     return 0;
 }
